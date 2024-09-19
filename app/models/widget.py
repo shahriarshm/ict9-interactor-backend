@@ -19,4 +19,3 @@ class Widget(Base):
     host = relationship("Host", back_populates="widgets")
     campaign = relationship("Campaign", back_populates="widgets")
     widget_template = relationship("WidgetTemplate", back_populates="widgets")
-

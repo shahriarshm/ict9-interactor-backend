@@ -19,11 +19,16 @@ class UUIDEncoder(json.JSONEncoder):
 class WidgetService:
     def __init__(self):
         self.base_url = settings.WIDGET_SERVICE_URL
-        self.headers = {'X-API-Key': settings.WIDGET_SERVICE_TOKEN, 'Content-Type': 'application/json'}
+        self.headers = {
+            "X-API-Key": settings.WIDGET_SERVICE_TOKEN,
+            "Content-Type": "application/json",
+        }
 
     def create_widget(self, widget_data: Dict[str, Any]) -> Dict[str, Any]:
         json_data = json.dumps(widget_data, cls=UUIDEncoder)
-        response = requests.post(f"{self.base_url}/widgets", data=json_data, headers=self.headers)
+        response = requests.post(
+            f"{self.base_url}/widgets", data=json_data, headers=self.headers
+        )
         return self._handle_response(response)
 
     def update_widget(
@@ -45,7 +50,7 @@ class WidgetService:
         response = requests.get(
             f"{self.base_url}/widgets/{widget_id}/interactions",
             params={"client_reference_id": client_reference_id},
-            headers=self.headers
+            headers=self.headers,
         )
         return self._handle_response(response)
 

@@ -15,7 +15,10 @@ from app.config import settings
 from app.models.user import User
 
 router = APIRouter()
-client = openai.OpenAI(base_url=settings.OPENAI_API_URL, api_key=settings.OPENAI_API_KEY)
+client = openai.OpenAI(
+    base_url=settings.OPENAI_API_URL, api_key=settings.OPENAI_API_KEY
+)
+
 
 @router.post("/", response_model=WidgetTemplate)
 def create_widget_template(

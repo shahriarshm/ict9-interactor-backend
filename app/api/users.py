@@ -37,12 +37,14 @@ def read_users(
     users = crud.user.get_multi(db, skip=skip, limit=limit)
     return users
 
+
 @router.get("/me", response_model=User)
 def read_current_user(
     db: Session = Depends(deps.get_db),
     current_user: User = Depends(deps.get_current_user),
 ):
     return current_user
+
 
 @router.get("/{user_id}", response_model=User)
 def read_user(

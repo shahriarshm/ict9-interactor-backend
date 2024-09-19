@@ -26,10 +26,12 @@ def create_widget(
     campaign = crud.campaign.get(db, id=widget.campaign_id)
     if campaign is None:
         raise HTTPException(status_code=404, detail="Campaign not found")
-    
+
     if campaign.status != CampaignStatus.active:
-        raise HTTPException(status_code=400, detail="Cannot create widget for inactive campaign")
-    
+        raise HTTPException(
+            status_code=400, detail="Cannot create widget for inactive campaign"
+        )
+
     template.template = add_default_js_to_html(template.template)
 
     obj = crud.widget.create_with_template(db=db, obj_in=widget, template=template)
@@ -54,7 +56,9 @@ def read_widgets(
     current_user: User = Depends(deps.get_current_user),
 ):
     if campaign_id:
-        widgets = crud.widget.get_multi_by_campaign(db, skip=skip, limit=limit, campaign_id=campaign_id)
+        widgets = crud.widget.get_multi_by_campaign(
+            db, skip=skip, limit=limit, campaign_id=campaign_id
+        )
     else:
         widgets = crud.widget.get_multi(db, skip=skip, limit=limit)
     return widgets

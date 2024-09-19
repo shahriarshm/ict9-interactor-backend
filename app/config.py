@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings
 import os
 
+
 class Settings(BaseSettings):
     DATABASE_URL: str = "postgresql://user:password@db:5432/mydatabase"
     API_V1_STR: str = "/api/v1"

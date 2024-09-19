@@ -3,7 +3,12 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from app import crud
-from app.schemas.campaign import Campaign, CampaignCreate, CampaignUpdate, CampaignStatus
+from app.schemas.campaign import (
+    Campaign,
+    CampaignCreate,
+    CampaignUpdate,
+    CampaignStatus,
+)
 from app.api import deps
 from app.models.user import User
 
@@ -47,8 +52,10 @@ def read_campaigns(
         filters.append(("host_id", host_id))
     if status:
         filters.append(("status", status))
-    
-    campaigns = crud.campaign.get_multi_with_filters(db, skip=skip, limit=limit, filters=filters)
+
+    campaigns = crud.campaign.get_multi_with_filters(
+        db, skip=skip, limit=limit, filters=filters
+    )
     return campaigns
 
 
