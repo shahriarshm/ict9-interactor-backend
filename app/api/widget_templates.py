@@ -2,8 +2,8 @@ from uuid import UUID
 from fastapi import APIRouter, Body, Depends, HTTPException
 import openai
 from sqlalchemy.orm import Session
-from typing import List
-from app import crud
+from typing import List, Optional
+from app import crud, utils
 from app.schemas.widget_template import (
     GenerateWidgetTemplate,
     WidgetTemplate,
@@ -33,6 +33,15 @@ def create_widget_template(
             status_code=403,
             detail="Not authorized to create widget template for this host",
         )
+
+
+    # Check if the widget template is safe
+    if not utils.is_html_safe(widget_template.template):
+        raise HTTPException(
+            status_code=400,
+            detail="Widget template is not safe",
+        )
+
     return crud.widget_template.create_with_host(
         db=db, obj_in=widget_template, host_id=widget_template.host_id
     )
@@ -42,7 +51,7 @@ def create_widget_template(
 def read_widget_templates(
     skip: int = 0,
     limit: int = 100,
-    host_id: UUID = None,
+    host_id: Optional[UUID] = None,
     db: Session = Depends(deps.get_db),
     current_user: User = Depends(deps.get_current_user),
 ):
@@ -125,14 +134,15 @@ def generate_template_with_ai(
     db: Session = Depends(deps.get_db),
     current_user: User = Depends(deps.get_current_user),
 ):
-    # Call OpenAI API to generate the widget template
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt},
+                {"role": "system", "content": "You are an expert HTML developer specializing in creating interactive, compact, and user-friendly campaign widgets such as small games, banners, and forms. Your goal is to generate HTML that maximizes user engagement."},
+                {"role": "user", "content": f"Create a compact, interactive HTML widget for a campaign based on this prompt: {prompt}. The widget should be engaging, user-friendly, and designed to increase user interaction. Include any necessary inline CSS and JavaScript to make the widget self-contained and easily embeddable."},
             ],
+            max_tokens=1000,
+            temperature=0.7,
         )
         generated_content = response.choices[0].message.content
     except Exception as e:
