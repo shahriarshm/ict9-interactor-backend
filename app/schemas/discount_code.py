@@ -1,6 +1,6 @@
 from pydantic import UUID4, BaseModel, constr
 from typing import Optional
-from datetime import date
+from datetime import date, datetime
 from enum import Enum
 from decimal import Decimal
 
@@ -39,3 +39,13 @@ class DiscountCode(DiscountCodeBase):
 
     class Config:
         from_attributes = True
+
+
+class BulkDiscountCodeCreate(BaseModel):
+    campaign_id: UUID4
+    code_prefix: str
+    count: int
+    discount_type: str
+    discount_value: float
+    max_uses: Optional[int] = None
+    expiration_date: Optional[datetime] = None
