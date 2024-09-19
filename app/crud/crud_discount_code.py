@@ -1,4 +1,5 @@
 from uuid import UUID
+import uuid
 from sqlalchemy.orm import Session
 from app.crud.base import CRUDBase
 from app.models.discount_code import DiscountCode
@@ -27,6 +28,11 @@ class CRUDDiscountCode(CRUDBase[DiscountCode, DiscountCodeCreate, DiscountCodeUp
         return (
             db.query(DiscountCode).filter(DiscountCode.campaign_id == campaign_id).all()
         )
+
+    def generate_unique_code(self, db: Session) -> str:
+        unique_id = str(uuid.uuid4())
+        last_part = unique_id.split('-')[-1]
+        return f"{last_part}"
 
 
 discount_code = CRUDDiscountCode(DiscountCode)

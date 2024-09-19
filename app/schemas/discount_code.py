@@ -35,7 +35,6 @@ class DiscountCodeUpdate(BaseModel):
 
 class DiscountCode(DiscountCodeBase):
     id: UUID4
-    host_id: UUID4
 
     class Config:
         from_attributes = True
