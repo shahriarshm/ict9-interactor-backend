@@ -139,13 +139,14 @@ def generate_template_with_ai(
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are an expert HTML developer specializing in creating interactive, compact, and user-friendly campaign widgets such as small games, banners, and forms. Your goal is to generate HTML that maximizes user engagement."},
-                {"role": "user", "content": f"Create a compact, interactive HTML widget for a campaign based on this prompt: {prompt}. The widget should be engaging, user-friendly, and designed to increase user interaction. Include any necessary inline CSS and JavaScript to make the widget self-contained and easily embeddable."},
+                {"role": "system", "content": "You are an expert HTML developer specializing in creating interactive, compact, and user-friendly campaign widgets such as small games, banners, and forms. Your goal is to generate HTML that maximizes user engagement. IMPORTANT: Only return the HTML content, without any explanations or additional text."},
+                {"role": "user", "content": f"Create a compact, interactive HTML widget for a campaign based on this prompt: {prompt}. The widget should be engaging, user-friendly, and designed to increase user interaction. Include any necessary inline CSS and JavaScript to make the widget self-contained and easily embeddable. IMPORTANT: Only provide the HTML content, nothing else."},
             ],
             max_tokens=1000,
             temperature=0.7,
         )
         generated_content = response.choices[0].message.content
+        generated_content = generated_content.replace("```html", "").replace("```", "")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"OpenAI API error: {str(e)}")
 

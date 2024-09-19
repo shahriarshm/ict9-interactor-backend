@@ -23,6 +23,7 @@ class WidgetUpdate(BaseModel):
 class Widget(WidgetBase):
     id: UUID4
     host_id: UUID4
+    campaign_id: UUID4
     widget_template_id: UUID4
 
     class Config:
