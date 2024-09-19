@@ -1,6 +1,12 @@
 # Interactor
 
-This project is a widget management system. It provides APIs to create, read, update, and delete widgets. The project is structured into several modules, each responsible for different aspects of the application.
+This project is a widget management system implemented as a microservice architecture. It provides APIs to create, read, update, and delete widgets. The project is structured into several modules, each responsible for different aspects of the application, and is distributed across three GitLab repositories.
+
+- [Interactor Backend](http://git.sharifict.ir/shahriarshm/interactor-backend.git)
+- [Interactor Frontend](http://git.sharifict.ir/shahriarshm/interactor-frontend.git)
+- [Interactor Widget Service](http://git.sharifict.ir/shahriarshm/interactor-widget-service.git)
+
+## Architecture
 
 ![Interactor](./assets/interactor.png)
 
@@ -27,14 +33,14 @@ The widget management system is designed to manage widgets efficiently. It inclu
 
 To install the project, follow these steps:
 
-1. Clone the repository:
+1. Clone the repositories:
     ```sh
     git clone http://git.sharifict.ir/shahriarshm/interactor-backend.git
+    git clone http://git.sharifict.ir/shahriarshm/interactor-frontend.git
+    git clone http://git.sharifict.ir/shahriarshm/interactor-widget-service.git
     ```
-2. Navigate to the project directory:
-    ```sh
-    cd interactor-backend
-    ```
+2. Navigate to each project directory and follow the specific installation instructions in their respective README files.
+
 3. Run using docker:
     ```sh
     docker compose up -d
@@ -42,19 +48,4 @@ To install the project, follow these steps:
 
 ## Usage
 
-To run the application, use the following command:
-
-```sh
-docker compose up -d
-```
-
-## Contributing
-
-Contributions are welcome! Please read the [Contributing Guidelines](./CONTRIBUTING.md) for more details.
-
-## Documentation
-
-The documentation for the project is available at [http://localhost:8000/docs](http://localhost:8000/docs).
-
-Also you can read the [Documentation](./docs/README.md) for more details.
-
+To run the application, use the following command in each project directory:
