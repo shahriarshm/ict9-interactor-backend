@@ -36,10 +36,11 @@ def create_widget_template(
 
 
     # Check if the widget template is safe
-    if not utils.is_html_safe(widget_template.template):
+    is_safe, reason = utils.is_html_safe(widget_template.template)
+    if not is_safe:
         raise HTTPException(
             status_code=400,
-            detail="Widget template is not safe",
+            detail=f"Widget template is not safe: {reason}",
         )
 
     return crud.widget_template.create_with_host(

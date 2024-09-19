@@ -30,7 +30,7 @@ def add_default_js_to_html(html_string: str) -> str:
     return str(soup)
 
 
-def is_html_safe(html_content: str) -> bool:
+def is_html_safe(html_content: str) -> tuple[bool, str]:
     """
     Checks if the given HTML content is safe using GPT-4o-mini.
 
@@ -44,17 +44,21 @@ def is_html_safe(html_content: str) -> bool:
         html_content (str): The HTML content to be checked.
 
     Returns:
-        str: "Yes" if the HTML is considered safe, "No" otherwise.
+        tuple[bool, str]: A tuple containing a boolean indicating if the HTML is safe,
+                          and a string description of why it's not safe (empty if safe).
     """
     prompt = f"""
-    Analyze the following HTML content for safety. Consider the following aspects:
+    Analyze the following HTML content for safety, considering it may contain Jinja templates. Consider the following aspects:
     1. Presence of sensitive content (e.g., personal information, explicit content)
-    2. Potentially malicious script tags
-    3. Iframe injections
-    4. Harmful attributes (e.g., onload, onerror)
+    2. Potentially malicious script tags (excluding those that are part of Jinja templates)
+    3. Iframe injections (excluding those that are part of Jinja templates)
+    4. Harmful attributes (e.g., onload, onerror) (excluding those that are part of Jinja templates)
     5. Any other security concerns
 
-    Respond with only 'Yes' if the HTML is safe, or 'No' if it's not safe.
+    Note: Jinja template syntax should not be marked as unsafe.
+
+    If the HTML is safe, respond with 'Yes'.
+    If it's not safe, respond with 'No' followed by a brief description of the security concerns.
 
     HTML Content:
     {html_content}
@@ -67,10 +71,13 @@ def is_html_safe(html_content: str) -> bool:
                 {"role": "system", "content": "You are a security expert analyzing HTML content."},
                 {"role": "user", "content": prompt},
             ],
-            max_tokens=1,
+            max_tokens=100,
         )
-        result = response.choices[0].message.content.strip().lower()
-        return True if result == "yes" else False
+        result = response.choices[0].message.content.strip()
+        if result.lower().startswith("yes"):
+            return True, ""
+        else:
+            return False, result[3:].strip()  # Remove 'No ' prefix and trim
     except Exception as e:
         print(f"Error in LLM analysis: {str(e)}")
-        return False  # Default to unsafe if there's an error
+        return False, "Error occurred during analysis"  # Default to unsafe if there's an error
