@@ -1,10 +1,18 @@
 # Interactor
 
+This project is written for 9th round of [Sharif ICT Challenge](https://sharifict.ir/). Our team won the second place. So we shared our project with public to help others learn more about the competition and our project.
+
 This project is a widget management system implemented as a microservice architecture. It provides APIs to create, read, update, and delete widgets. The project is structured into several modules, each responsible for different aspects of the application, and is distributed across three GitLab repositories.
 
-- [Interactor Backend](http://git.sharifict.ir/shahriarshm/interactor-backend.git)
-- [Interactor Frontend](http://git.sharifict.ir/shahriarshm/interactor-frontend.git)
-- [Interactor Widget Service](http://git.sharifict.ir/shahriarshm/interactor-widget-service.git)
+## Challenge
+
+To understand the challenge and our solution, you can read the [Persian Version](./docs/ict-challenge-fa.md) or [English Version](./docs/ict-challenge-en.md) of the challenge.
+
+# Project Microservices
+
+- [Interactor Backend](https://github.com/shahriarshm/ict9-interactor-backend.git)
+- [Interactor Frontend](https://github.com/MSNP1381/ICT9-interactor-campaigns.git)
+- [Interactor Widget Service](https://github.com/shahriarshm/ict9-interactor-widget-service.git)
 
 ## Architecture
 
@@ -35,9 +43,9 @@ To install the project, follow these steps:
 
 1. Clone the repositories:
     ```sh
-    git clone http://git.sharifict.ir/shahriarshm/interactor-backend.git
-    git clone http://git.sharifict.ir/shahriarshm/interactor-frontend.git
-    git clone http://git.sharifict.ir/shahriarshm/interactor-widget-service.git
+    git clone https://github.com/shahriarshm/ict9-interactor-backend.git
+    git clone https://github.com/MSNP1381/ICT9-interactor-campaigns.git
+    git clone https://github.com/shahriarshm/ict9-interactor-widget-service.git
     ```
 2. Navigate to each project directory and follow the specific installation instructions in their respective README files.
 
